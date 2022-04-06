@@ -16,7 +16,7 @@ Including another URLconf
 from re import template
 from django.contrib import admin
 from django.urls import path
-from apps.common.views import HomeView, SignupView, DashboardView
+from apps.common.views import HomeView, SignupView, DashboardView, ProfileUpdateView, ProfileView
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
@@ -37,4 +37,13 @@ urlpatterns = [
     path('password-reset-confirm/<uidb64>/<token>', auth_views.PasswordResetConfirmView.as_view(template_name='common/password-reset/password_reset_confirm.html'),name='password_reset_confirm'),
 
     path('password-reset-complete/',auth_views.PasswordResetCompleteView.as_view(template_name='common/password-reset/password_reset_complete.html'), name='password_reset_complete'),
+
+    path('profile-update/', ProfileUpdateView.as_view(), name='profile-update'),
+
+    path('profile/', ProfileView.as_view(), name='profile'),
 ]
+
+from django.conf import settings
+from django.conf.urls.static import static
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
